@@ -40,6 +40,7 @@ class Tests {
         assertEquals("12 лет", ageDescription(12))
         assertEquals("111 лет", ageDescription(111))
         assertEquals("199 лет", ageDescription(199))
+        assertEquals("37 лет", ageDescription(37))
     }
 
     @Test
@@ -48,6 +49,7 @@ class Tests {
         assertEquals(2.5, timeForHalfWay(1.0, 5.0, 2.0, 4.0, 3.0, 3.0), 1e-2)
         assertEquals(3.67, timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0), 1e-2)
         assertEquals(4.4, timeForHalfWay(3.0, 0.0, 1.0, 6.0, 2.0, 5.0), 1e-2)
+        assertEquals(4.75, timeForHalfWay(3.0, 1.0, 1.0, 0.0, 2.0, 6.0), 1e-2)
     }
 
     @Test
@@ -57,6 +59,7 @@ class Tests {
         assertEquals(1, whichRookThreatens(5, 3, 7, 3, 4, 8))
         assertEquals(2, whichRookThreatens(6, 8, 8, 6, 6, 3))
         assertEquals(3, whichRookThreatens(3, 7, 8, 7, 3, 5))
+        assertEquals(0, whichRookThreatens(2, 10, 5, 1, 10, 15))
     }
 
     @Test
@@ -66,6 +69,7 @@ class Tests {
         assertEquals(1, rookOrBishopThreatens(2, 8, 6, 8, 1, 6))
         assertEquals(2, rookOrBishopThreatens(5, 4, 3, 7, 1, 8))
         assertEquals(3, rookOrBishopThreatens(1, 6, 7, 6, 3, 8))
+        assertEquals(0, rookOrBishopThreatens(2, 2, 4, 4, 7, 2))
     }
 
     @Test
@@ -75,6 +79,7 @@ class Tests {
         assertEquals(1, triangleKind(5.0, 3.0, 4.0))
         assertEquals(2, triangleKind(4.0, 6.0, 8.0))
         assertEquals(0, triangleKind(1.0, 1.5, 1.5))
+        assertEquals(-1, triangleKind(4.0, 8.0, 4.0))
     }
 
     @Test
