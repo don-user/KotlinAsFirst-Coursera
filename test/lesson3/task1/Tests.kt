@@ -70,6 +70,7 @@ class Tests {
         assertEquals(2, digitNumber(10))
         assertEquals(2, digitNumber(99))
         assertEquals(3, digitNumber(123))
+        assertEquals(7, digitNumber(1020003))
         assertEquals(10, digitNumber(Int.MAX_VALUE))
     }
 
@@ -84,6 +85,7 @@ class Tests {
         assertEquals(102334155, fib(40))
         assertEquals(1134903170, fib(45))
         assertEquals(1836311903, fib(46))
+        assertEquals(55, fib(10))
         // Just to calculate it
         fib(50)
     }
@@ -139,6 +141,7 @@ class Tests {
         assertFalse(isCoPrime(37, 111))
         assertTrue(isCoPrime(1234567890, 908765431))
         assertTrue(isCoPrime(2109876543, 1234567891))
+        assertFalse(isCoPrime(33,33))
     }
 
     @Test
@@ -199,6 +202,7 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(10505, revert (50501))
     }
 
     @Test
@@ -206,6 +210,7 @@ class Tests {
     fun isPalindrome() {
         assertTrue(isPalindrome(3))
         assertFalse(isPalindrome(3653))
+        assertFalse(isPalindrome(25010))
         assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
     }
@@ -229,6 +234,7 @@ class Tests {
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))
+        assertEquals(1, squareSequenceDigit(361128))
     }
 
     @Test
