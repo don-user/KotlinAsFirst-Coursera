@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson4.task1.squares
+import java.lang.NumberFormatException
+
 /**
  * Пример
  *
@@ -42,22 +45,22 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main(args: Array<String>) {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    }
-    else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
-}
+//fun main(args: Array<String>) {
+//    println("Введите время в формате ЧЧ:ММ:СС")
+//    val line = readLine()
+//    if (line != null) {
+//        val seconds = timeStrToSeconds(line)
+//        if (seconds == -1) {
+//            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+//        }
+//        else {
+//            println("Прошло секунд с начала суток: $seconds")
+//        }
+//    }
+//    else {
+//        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+//    }
+//}
 
 
 /**
@@ -71,7 +74,38 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val date = str.split(" ") // переменная даты которую преобразуем в список
+    try {                                           // ТРАЙ для поимки исключений
+        val day = date[0].toInt()               //переменная день дата с индексом 0
+        val year = date[2].toInt()              //переменная год дата с индексом 2
+        if (date[2].length != 4 || date.size != 3) { // условие если в году не 4 символов или в дате больше 3 строк
+            return ""                                   // возвращаем ""
+        }
+        var month: Int                              // переменная месяц будем вычислять
+        month = when {                                 // условие по месяцу когда
+            date[1] == "января" && date[0].toInt() <= 31 -> 1    // месяц равен "явнаря" и дней в месяце меньше ли равно
+            date[1] == "февраля" && date[0].toInt() < 29 -> 2   // месяц равен "февраля" и дней в месяце меньше ли равно
+            date[1] == "марта" && date[0].toInt() <= 31 -> 3
+            date[1] == "апреля" && date[0].toInt() <= 30 -> 4
+            date[1] == "мая" && date[0].toInt() <= 31 -> 5
+            date[1] == "июня" && date[0].toInt() <= 30 -> 6
+            date[1] == "июля" && date[0].toInt() <= 31 -> 7
+            date[1] == "августа" && date[0].toInt() <= 31 -> 8
+            date[1] == "сентября" && date[0].toInt() <= 30 -> 9
+            date[1] == "октября" && date[0].toInt() <= 31 -> 10
+            date[1] == "ноября" && date[0].toInt() <= 30 -> 11
+            date[1] == "декабря" && date[0].toInt() <= 31 -> 12
+            else -> return ""                                     // если соотвествий нет возвращаем ""
+        }
+        return String.format("%02d.%02d.%02d", day, month, year)     // если совпадения есть возвращаем Стринг формат день минимум 2 симовла, месяц тоже и год более 2-х
+    } catch (e: NumberFormatException) {                // поймать исключение не верного типа вводимой информации
+        return ""                                   // выводим ""
+    } catch (e: IndexOutOfBoundsException) {        // поймат исключение выхода за пределы индекса списков
+        return ""
+    }
+}
+
 
 /**
  * Средняя
@@ -83,7 +117,36 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val date = digital.split(".")  // переделываем строку в списко с разделителем .
+    try {                                           // ТРАЙ пытаемся поймать исключение
+        val day = date[0].toInt()               // переменная дня преобразуем в числовой формат
+        val year = date[2].toInt()              // год преобразуем в числовой формат
+        if (date[2].length != 4 || date.size != 3) {    // условие где в году более не 4 символа и в дате более 3 строк
+            return ""
+        }
+        val month: String = when {                              // создаем переменную в которой условие когда месяц равен (см далее по списку)
+            date[1] == "01" && date[0].toInt() <= 31 -> "января"    // месяц равен "явнаря" и дней в месяце меньше ли равно
+            date[1] == "02" && date[0].toInt() < 29 -> "февраля"   // месяц равен "февраля" и дней в месяце меньше ли равно
+            date[1] == "03" && date[0].toInt() <= 31 -> "марта"
+            date[1] == "04" && date[0].toInt() <= 30 -> "апреля"
+            date[1] == "05" && date[0].toInt() <= 31 -> "мая"
+            date[1] == "06" && date[0].toInt() <= 30 -> "июня"
+            date[1] == "07" && date[0].toInt() <= 31 -> "июля"
+            date[1] == "08" && date[0].toInt() <= 31 -> "августа"
+            date[1] == "09" && date[0].toInt() <= 30 -> "сентября"
+            date[1] == "10" && date[0].toInt() <= 31 -> "октября"
+            date[1] == "11" && date[0].toInt() <= 30 -> "ноября"
+            date[1] == "12" && date[0].toInt() <= 31 -> "декабря"
+            else -> return ""                                       // если условие не выполнена возвращаем ""
+        }
+        return String.format("%d %s %d", day, month, year)  //возвращаем строку в формате день (число), Месяц (строка), год (цифра)
+    } catch (e: NumberFormatException) {                    // ловим исключение c неверным типом данных
+        return ""
+    } catch (e: IndexOutOfBoundsException) {            // ловим исключение с выходом за индекс
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -97,7 +160,18 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val num = Regex("[^- 0-9()+]").find(phone) // переменная для условия, где в строке phone если есть хоть 1 cимовол кроме - 0-9()+,  то она не пустая
+    if (num != null) {                          // условие если строка num не пустая, то возвращается ""
+        return ""
+    }                                           // иначе решаение ниже
+    val numConstructor = Regex("""\+?\d+""").findAll(phone) // переменная для поиска в строке символов + и люьых цифр
+    val res = StringBuilder()                                               // результат куда будем записывать ответ в виде + и цифр без пробелов
+    for (i in numConstructor)                           // цикл по найденым словам где выдергиваются + и цифры (разделенные остальными символами)
+        res.append(i.value)                             //вкладывает найденное + и числа в строку которую строим (RES)
+    return res.toString()
+
+}
 
 /**
  * Средняя
@@ -109,7 +183,25 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val noFormat = Regex("[^- 0-9%]").find(jumps) // переменная для проверки недопустимых символов
+    var res = -1                                                    // переменная результат равная -1 (для else)
+    if (noFormat == null) {                                         // условие на недопустимые значения если не таких значений
+        val constructor = Regex("""\d+""").findAll(jumps)   // создаем конструктор строки ищем все цифры и записываем в конструктор
+        val str = StringBuilder()                 // переменная для строки куда будем записывать данные коструктора
+        for (i in constructor) {        // цикл для выдергивания значений конструктора и записи в строку
+            str.append(i.value + " ")           // запись в строку через пробел
+        }
+        try {                                           // ТРАЙ ловим исключения не формата (например для пустой строки)
+            val list = str.trim().split(" ").map { it.toInt() } // переменная для создания списка (удаление пробелов в конце (trim), и разделение в список цифр через пробелы(spit) и  измененения типа значений списка на INT (map))
+            res = list.max()!!                                  // выбор максимального значения в списке
+        } catch (e: NumberFormatException) {                // ловим исключение
+            return -1                           // если поймайли возвращаем -1
+        }
+    } else res                                  // если noFormat содержит недопустимые символы возращаем res (-1)
+
+    return res
+}
 
 /**
  * Сложная
@@ -121,7 +213,24 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val test = Regex("[^-0-9 +%]").find(jumps)  // переменная определеящая нужный формат (содержащая только верные символы)
+    val hit = Regex("""\d+ %*?\+""").findAll(jumps) //переменная всех удачных попыток, даже после неудачной
+    val text = StringBuilder()              // строка куда записываем значения успешных попыток
+    var goodHit = -1                        // удачные попытки изначальна равно исключению
+    if (test != null) return -1             // если в тесте находим неподходящии символы символы возврашаем -1
+    for (i in hit) {            //Цикл по успешным попыткам записываем в строку (text)
+        text.append(i.value)
+    }
+    val a = Regex("""%*?\+""").replace(text, "").trim().split(" ") //создаем список из цифр, убираем все не нужное (лишнии пробелы, и символы)
+    try {                                                                       //ловим исключения
+        val list = a.map { it.toInt() }                 // преобразуем список в цифры
+        goodHit = list.max()!!                          // выбираем мксимальную цифру
+    } catch (e: NumberFormatException) {            // ловим исключение и если поймаем возвращаем -1
+        return -1
+    }
+    return goodHit
+}
 
 /**
  * Сложная
@@ -132,7 +241,31 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val test = Regex("[^-0-9 +]").find(expression)  //переменная для определения формата строки
+    val example = expression.split(" ")         // список из элементов строки разделенных пробелом
+    if (test != null) throw IllegalArgumentException()              // формат содержит недопустимые символы то возвращаем IllegalArgumentException
+    when {                                                          // цикл для определения последнего символа, если не цифра то
+        example[example.size - 1] == "+" -> throw IllegalArgumentException()    // возвращаем IllegalArgumentException
+        example[example.size - 1] == "-" -> throw IllegalArgumentException()       // возвращаем IllegalArgumentException
+        example[example.size - 1] == "" -> throw IllegalArgumentException() // возвращаем IllegalArgumentException
+    }
+    for (i in example.indices step 2){                          // цикл для проверки формата, где через каждый индекс должна идти цифра
+        val test1 = Regex("[^0-9]").find(example[i])    // запись в переменную значения всех символов кроме цифр
+        if (test1 != null) throw IllegalArgumentException()             // если запись есть то возвращаем IllegalArgumentException
+    }
+    var res = example[0].toInt()                // записываем в перменную результат значение первой цифры из списка
+    for (i in 1 until example.size step 2) {    // далее идем по списку ищем знаки + или - , через индекс (пропускаем цифры)
+        when {                                      // условия для знакак вычисления
+            example[i] == "+" -> res += example[i + 1].toInt()  // если + то прибавляем следующую после знака цифру к результату
+            example[i] == "-" -> res -= example[i + 1].toInt()  // если - то отнимаем следующую после знака цифру от результата
+            else -> throw IllegalArgumentException()            // при других знаках возвращаем  IllegalArgumentException
+        }
+    }
+
+    return res
+}
+
 
 /**
  * Сложная
@@ -143,7 +276,24 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val str1 = str.toLowerCase()        // исключаем разный регистр букв (делаем все маленькими)
+    val list = str1.split(" ")  // создаем список из слов разделенные пробелом
+    var word = ""                                   // создаем пустую переменную для записи повторяющегося слова
+    var nextWord = list[0]                     //записываем первое слово из списка
+    var res = -1                            // пременная результат с первичным значением -1 (нет повторяющих слов)
+    for (i in 1 until list.size){       // цикл по списку для поиска повторяющихся слов начинаем со 2 слова в списке
+        if (nextWord.equals(list[i], true)) { // если слова равные
+            word = nextWord                             // записываем повторяющее слово
+        }
+        nextWord = list[i]              // меняем первое слово на второе в переменной
+    }
+    if (word != "") {                   // если повторяющихся слова есть
+        var w = str1.substringBefore("$word $word") //создаем предложение где которое состоит из слов до повторяющихся
+        res = w.length                      // и результат будет длина нового предложение, т.к. значение индекса первой буквы повторящего слова это следующий индекс
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -156,7 +306,34 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val test = Regex("[^А-Яа-я 0-9;.]").find(description)   // переменная по поиску посторонних символов
+    if (test != null) return ""  //если в строке есть посторонни символы, возвращаем пустую строку
+    val digit = Regex("""\d+(.\d+)?""").findAll(description)    //все цифры формата Double
+    val list1 = mutableListOf<Double>()                         // создаем пустой изменяемый список
+    var res = ""                                                // создаем пустую строку для записи результата
+    var a = -1.0                                    // переменная для сравнения цифр из списка, равная значению меньше 0
+    for (i in digit) {              // цикл по списку из цифр
+        list1 += i.value.toDouble()             // создаем список из цирф в формате double
+    }
+    val str = Regex("""([А-Яа-я]+)""").findAll(description) // ищем все слова на руском языке
+    val list = mutableListOf<String>()      // создаем пустой список
+    for (i in str) {                            // цикл для поиска слов и создание списка
+        list += i.value                         //  запись слов в список
+    }
+    if (list.size != list1.size) return res         // условие если списки из слов и цифр разной длины то возвращаем пустой список
+    for (i in 0 until list.size) {          // цикл сравнения значений и посик макисмального
+        if (list1[i] > a) {                 // если следующая цифра больше чем значение а, то
+            res = list[i]               // значение записываем в результат
+        }
+        a = list1[i]                // присваиваем новое значение а
+    }
+
+    return res
+}
+fun main(args: Array<String>) {
+    print(mostExpensive("Хлеб; Молоко 62; Курица 184.0; Конфеты 89.9"))
+}
 
 /**
  * Сложная
